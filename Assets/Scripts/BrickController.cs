@@ -35,7 +35,7 @@ public class BrickController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ball"))
         {
-            TakeDamage();
+            this.TakeDamage();
         }
     }
 
@@ -46,7 +46,10 @@ public class BrickController : MonoBehaviour
         if (currentDurability > 0)
         {
             SetColor();
-            scoreManager.AddScore(10); // Add score when the brick is destroyed
+            if (scoreManager != null)
+            {
+                scoreManager.AddScore(10); // Add score for hitting the brick
+            }
         }
         else
         {

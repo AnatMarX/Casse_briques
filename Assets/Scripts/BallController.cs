@@ -4,22 +4,48 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     // Vitesse de déplacement de la boule
-    private float ballSpeed = 25;
+    public float ballSpeed = 0;
 
-    // Référence au Rigidbody
+    public LevelController LevelController;
+    // Référence au go & au Rigidbody
+    private GameObject go;
     private Rigidbody rb;
     private Vector3 direction;
+    private bool impulse;
+
     void Start()
     {
+        impulse = false;
         // Obtenir le Rigidbody attaché à l'objet
         rb = GetComponent<Rigidbody>();
-        rb.velocity = new Vector3(0, ballSpeed, 0);
+        go=getGo();
+    }
+
+    // Ref gameobject
+    private GameObject getGo()
+    {
+        return this.gameObject;
+    }
+    private void Update()
+    { 
+        
     }
 
     void FixedUpdate()
     {
+        //Debug.Log(rb.velocity);
+        
+        
+        if (go.transform.parent == null && this.impulse == false)
+        {
+            Debug.Log("impulsion");
+            this.ballSpeed = 5;
+            this.impulse = true;
+            rb.velocity = new Vector3(0, ballSpeed, 0);
+        }
+        
         //Debug.Log(ballSpeed);
-        //Debug.Log(rb.velocity.normalized);
+        //aDebug.Log(rb.velocity.normalized);
         direction = rb.velocity;
         direction[2] = 0.0f;
         direction = direction.normalized;
@@ -29,10 +55,16 @@ public class BallController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        // Vérifier si la boule a touché un obstacle
-        if (collision.gameObject.tag == "Obstacle")
+        // Vérifier si la boule touche 
+        if (collision.gameObject.tag == "Death")
         {
-            
+            LevelController.Death();
+        }
+        if (collision.gameObject.tag == "Brick")
+        {
+            this.GetComponent<AudioSource>().Play();
+            Debug.Log("PLayed Sound!");
+
         }
     }
 }

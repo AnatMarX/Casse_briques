@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class LivesManager : MonoBehaviour
 {
+    public LevelController LevelController;
     public TextMeshProUGUI scoreText;
-    private int lives = 5;
+    public int lives = 5;
     
     void Start()
     {
         UpdateLivesText();
     }
 
-    public void LoseOneLife()
+    public bool LoseOneLife()
     {
         lives --;
         UpdateLivesText();
+        if (lives == 0)
+        {
+            return false;
+        }
+        return true;
     }
 
     private void UpdateLivesText()

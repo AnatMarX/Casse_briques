@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
+    public string difficulty;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +24,24 @@ public class SceneController : MonoBehaviour
         SceneManager.LoadScene("play_difficulty");
     }
 
-    public void BtnStartGameOnClick()
+    public void BtnStartEasyGameOnClick()
     {
+        difficulty = "easy";
+        PlayerPrefs.SetString("Difficulty", difficulty);
+        SceneManager.LoadScene("game");
+    }
+
+    public void BtnStartMediumGameOnClick()
+    {
+        difficulty = "medium";
+        PlayerPrefs.SetString("Difficulty", difficulty);
+        SceneManager.LoadScene("game");
+    }
+
+    public void BtnStartHardGameOnClick()
+    {
+        difficulty = "hard";
+        PlayerPrefs.SetString("Difficulty", difficulty);
         SceneManager.LoadScene("game");
     }
 

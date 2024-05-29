@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 122324452}
   - component: {fileID: 122324451}
   m_Layer: 5
-  m_Name: new_game
+  m_Name: easy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1058,7 +1058,7 @@ GameObject:
   - component: {fileID: 1045156603}
   - component: {fileID: 1045156602}
   m_Layer: 5
-  m_Name: settings
+  m_Name: hard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1323,7 +1323,7 @@ GameObject:
   - component: {fileID: 1102358176}
   - component: {fileID: 1102358175}
   m_Layer: 0
-  m_Name: GameController
+  m_Name: SceneController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1341,6 +1341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53fb16dd7d8c64d4db07c6c76a3bc0d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficulty: 
 --- !u!4 &1102358176
 Transform:
   m_ObjectHideFlags: 0
@@ -1609,7 +1610,7 @@ GameObject:
   - component: {fileID: 2074769057}
   - component: {fileID: 2074769056}
   m_Layer: 5
-  m_Name: highscores
+  m_Name: medium
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

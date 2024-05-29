@@ -7,6 +7,7 @@ TagManager:
   - Box
   - Brick
   - Ball
+  - Death
   layers:
   - Default
   - TransparentFX

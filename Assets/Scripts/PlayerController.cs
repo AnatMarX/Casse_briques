@@ -1,23 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public GameObject Player;
+    public LevelController LevelController;
     //private GameObject go;
     //[Header("Public variables")]
     //public bool Rotate;
-    public float speed;
+    private float speed;
+    private bool gameStarted = false;
     // Start is called before the first frame update
     void Start()
     {
-        speed = 2;
+        speed = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Space) && gameStarted==false)
+        {
+            BallController ballcontroller = GameObject.Find("Ball").GetComponent<BallController>();
+            ballcontroller.transform.parent.DetachChildren();
+            LevelController.StartLevel();
+            gameStarted = true;
+        }
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {

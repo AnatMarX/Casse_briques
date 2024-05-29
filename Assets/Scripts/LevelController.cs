@@ -4,29 +4,68 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
+    public LivesManager LivesManager;
+    public GameObject Lives;
+    public GameObject PlayerAndBall;
+    public GameObject Ball;
     public GameObject brickPrefab;
-    public int rows = 5;
-    public int columns = 5;
-    public int baseDurability = 5;
+    public GameObject playerPrefab;
+    public GameObject boxPrefab;
+    private string difficulty;
+    private int rows = 10;
+    private int columns = 7;
+    private int baseDurability = 5;
     private float xSpacing = 1.62f;
     private float ySpacing = 1.09f;
     private Vector3 topLeftBrickPosition = new Vector3(-7.86f, 4.28f, 99.736f);
-  
+
+    public Vector3 initialPositionPlayerAndBall = new Vector3(0f, -4.493144f, 99.51f);
+    public Vector3 initialPositionBall = new Vector3(2.654874f, 0f, -0.03000641f);
+
     private Color Brick1; // Brick colors
     private Color Brick2;
     private Color Brick3;
     private Color Brick4;
     private Color Brick5;
     private Color[] colors;
-
+    private bool alive = true;
+    
     private int BrickHP; // Brick health points
     void Start()
     {
-        GenerateBricks();
+        difficulty = PlayerPrefs.GetString("Difficulty");
+        GenerateBricks(difficulty);
 
     }
 
-    void GenerateBricks()
+    public void Death()
+    {
+        alive = LivesManager.LoseOneLife();
+        if (alive)
+        {
+            resetPlayer();
+        }
+    }
+
+    public void resetPlayer()
+    {
+        PlayerAndBall.transform.position = initialPositionPlayerAndBall;
+
+        // Fixer Ball à l'emplacement spécifié
+        Ball.transform.position = initialPositionBall;
+
+        // Rendre Ball enfant de PlayerAndBall
+        Ball.transform.SetParent(PlayerAndBall.transform);
+
+        Debug.Log("Les objets ont été positionnés et Ball est maintenant enfant de PlayerAndBall.");
+    }
+
+    public void StartLevel()
+    {
+
+    }
+
+    void GenerateBricks(string difficulty)
     {
         for (int i = 0; i < rows; i++)
         {
@@ -40,10 +79,10 @@ public class LevelController : MonoBehaviour
                 int durability = baseDurability; // Or you can randomize this value
 
                 // Init colors
-                Brick1 = Color.green;    // First color (easiest brick to break)
-                Brick2 = Color.blue;     // Second color
+                Brick1 = Color.blue;    // First color (easiest brick to break)
+                Brick2 = Color.Lerp(Color.blue, Color.magenta, 0.5f);     // Second color
                 Brick3 = Color.magenta;  // Third color
-                Brick4 = Color.red;      // Fourth color
+                Brick4 = Color.Lerp(Color.black,Color.magenta,0.5f);      // Fourth color
                 Brick5 = Color.black;    // Fifth color (hardest brick to break)
 
                 // Define the color array based on durability
