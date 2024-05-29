@@ -4,7 +4,7 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     // Vitesse de déplacement de la boule
-    public float ballSpeed = 6;
+    private float ballSpeed = 25;
 
     // Référence au Rigidbody
     private Rigidbody rb;
@@ -18,10 +18,13 @@ public class BallController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log(ballSpeed);
-        Debug.Log(rb.velocity.normalized);
-        direction = rb.velocity.normalized;
+        //Debug.Log(ballSpeed);
+        //Debug.Log(rb.velocity.normalized);
+        direction = rb.velocity;
+        direction[2] = 0.0f;
+        direction = direction.normalized;
         rb.velocity = direction * ballSpeed;
+        rb.angularVelocity = Vector3.zero; // On empêche la rotation pour éviter des blocages
     }
 
     void OnCollisionEnter(Collision collision)
