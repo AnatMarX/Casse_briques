@@ -13,12 +13,6 @@ public class SceneController : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void BtnNewGameOnClick()
     {
         SceneManager.LoadScene("play_difficulty");
@@ -26,21 +20,21 @@ public class SceneController : MonoBehaviour
 
     public void BtnStartEasyGameOnClick()
     {
-        difficulty = "easy";
+        difficulty = "Easy";
         PlayerPrefs.SetString("Difficulty", difficulty);
         SceneManager.LoadScene("game");
     }
 
     public void BtnStartMediumGameOnClick()
     {
-        difficulty = "medium";
+        difficulty = "Medium";
         PlayerPrefs.SetString("Difficulty", difficulty);
         SceneManager.LoadScene("game");
     }
 
     public void BtnStartHardGameOnClick()
     {
-        difficulty = "hard";
+        difficulty = "Hard";
         PlayerPrefs.SetString("Difficulty", difficulty);
         SceneManager.LoadScene("game");
     }
@@ -62,7 +56,7 @@ public class SceneController : MonoBehaviour
     public void BtnQuitOnClick()
     {
         Application.Quit();
-        UnityEditor.EditorApplication.isPlaying = false;
+        //UnityEditor.EditorApplication.isPlaying = false;
     }
 
 }

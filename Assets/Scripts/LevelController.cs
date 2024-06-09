@@ -18,6 +18,9 @@ public class LevelController : MonoBehaviour
     private readonly int rows = 10;
     private readonly int columns = 7;
     private readonly int baseDurability = 5;
+    int numZeros;
+    int numOnes;
+    int numTwos;
     private float xSpacing = 1.62f;
     private float ySpacing = 1.09f;
     private Vector3 topLeftBrickPosition = new Vector3(-7.86f, 4.28f, 99.736f);
@@ -47,7 +50,7 @@ public class LevelController : MonoBehaviour
         livesManager = GetComponent<LivesManager>();
         timeManager = GetComponent<TimeManager>();
 
-        difficulty = PlayerPrefs.GetString("Difficulty");
+        difficulty = PlayerPrefs.GetString("Difficulty", "Easy");
         GenerateBricks(difficulty);
     }
 
@@ -100,37 +103,127 @@ public class LevelController : MonoBehaviour
         timeManager.StopTimeCountdown();
     }
 
-    void GenerateBricks(string difficulty)
+    int[,] DistributeValues(int[,] grid, int numValues, int value)
     {
+        // Distribution aléatoire des valeurs dans la grille
+        for (int i = 0; i < numValues; i++)
+        {
+            int randomRow = Random.Range(0, rows);
+            int randomColumn = Random.Range(0, columns);
+
+            // Vérifier si la cellule est déjà occupée
+            if (grid[randomRow, randomColumn] == -1)
+            {
+                grid[randomRow, randomColumn] = value;
+            }
+            else
+            {
+                // Réessayer avec une nouvelle cellule
+                i--;
+            }
+        }
+        return grid;
+    }
+
+    void PrintGrid(int[,] grid)
+    {
+        // Afficher la grille dans la console
+        string gridString = "Grid:\n";
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                gridString += grid[i, j] + " ";
+            }
+            gridString += "\n";
+        }
+        Debug.Log(gridString);
+    }
+
+void GenerateBricks(string difficulty)
+    {
+        int[,] grid = new int[rows, columns];
+        int numZeros;
+        int numOnes;
+        int numTwos;
+        // Initialiser toutes les valeurs du tableau à -1
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                grid[i, j] = -1;
+            }
+        }
+
+
+        if (difficulty == "Easy")
+        {
+            numZeros = 40;
+            numOnes = 20;
+            numTwos = 10;
+        }
+        else if (difficulty == "Medium")
+        {
+            numZeros = 20;
+            numOnes = 40;
+            numTwos = 10;
+        }
+        else
+        {
+            numZeros = 20;
+            numOnes = 40;
+            numTwos = 10;
+        }
+
+        // Distribuer aléatoirement les valeurs dans la grille
+        grid = DistributeValues(grid, numZeros, 0);
+        grid = DistributeValues(grid, numOnes, 1);
+        grid = DistributeValues(grid, numTwos, 2);
+        // Afficher la grille dans la console
+        PrintGrid(grid);
+
+
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < columns; j++)
             {
                 Vector3 position = new Vector3(i * xSpacing, - j * ySpacing, 0);
                 position += topLeftBrickPosition;
-                GameObject brick = Instantiate(brickPrefab, position, Quaternion.identity);
+                if (grid[i,j] == 1) {
+                    GameObject brick = Instantiate(brickPrefab, position, Quaternion.identity);
 
-                // Randomize durability if needed, or use baseDurability
-                int durability = baseDurability; // Or you can randomize this value
+                    // Randomize durability if needed, or use baseDurability
+                    int durability = baseDurability; // Or you can randomize this value
 
-                // Init colors
-                Brick1 = Color.blue;    // First color (easiest brick to break)
-                Brick2 = Color.Lerp(Color.blue, Color.magenta, 0.5f);     // Second color
-                Brick3 = Color.magenta;  // Third color
-                Brick4 = Color.Lerp(Color.black,Color.magenta,0.5f);      // Fourth color
-                Brick5 = Color.black;    // Fifth color (hardest brick to break)
+                    // Init colors
+                    Brick1 = Color.blue;    // First color (easiest brick to break)
+                    Brick2 = Color.Lerp(Color.blue, Color.magenta, 0.5f);     // Second color
+                    Brick3 = Color.magenta;  // Third color
+                    Brick4 = Color.Lerp(Color.black, Color.magenta, 0.5f);      // Fourth color
+                    Brick5 = Color.black;    // Fifth color (hardest brick to break)
 
-                // Define the color array based on durability
-                Color[] colors = new Color[] { Brick1, Brick2, Brick3, Brick4, Brick5 };
-                /*
-                Debug.Log(colors[0]);
-                Debug.Log(colors[1]);
-                Debug.Log(colors[2]);
-                */
+                    // Define the color array based on durability
+                    Color[] colors = new Color[] { Brick1, Brick2, Brick3, Brick4, Brick5 };
+                    /*
+                    Debug.Log(colors[0]);
+                    Debug.Log(colors[1]);
+                    Debug.Log(colors[2]);
+                    */
 
-                // Initialize the brick with the defined durability and colors
-                BrickController brickController = brick.GetComponent<BrickController>();
-                brickController.Initialize(durability, colors);
+                    // Initialize the brick with the defined durability and colors
+                    BrickController brickController = brick.GetComponent<BrickController>();
+                    brickController.Initialize(durability, colors);
+                }
+                else if (grid[i,j] == 2)
+                {
+                    GameObject box = Instantiate(boxPrefab, position, Quaternion.identity);
+                }
+
+                else
+                {
+                    Debug.Log("space instantiated");
+                }
+
             }
         }
     }

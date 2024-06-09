@@ -38,12 +38,13 @@ public class GameOverManager : MonoBehaviour
     // Méthode pour soumettre le score
     public void SubmitScore()
     {
+        string difficulty = PlayerPrefs.GetString("Difficulty","Easy");
         string playerName = playerNameInput.text;
 
         if (!string.IsNullOrEmpty(playerName))
         {
             // Enregistrez le score dans un fichier CSV
-            string filePath = Application.dataPath + "/Scores.csv";
+            string filePath = Application.dataPath + "/Scores"+difficulty+".csv";
             string delimiter = ",";
 
             if (!File.Exists(filePath))
