@@ -8,6 +8,8 @@ TagManager:
   - Brick
   - Ball
   - Death
+  - Audio
+  - GameOver
   layers:
   - Default
   - TransparentFX

@@ -10,6 +10,13 @@ public class BrickController : MonoBehaviour
     private int currentDurability;
     private int maxDurability;
     private ScoreManager scoreManager;
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     void Start()
     {
         rend = GetComponent<Renderer>();
@@ -54,6 +61,7 @@ public class BrickController : MonoBehaviour
         else
         {
             scoreManager.AddScore(maxDurability*100); // Add score when the brick is destroyed
+            audioManager.PlaySFX(audioManager.destroyBrick);
             Destroy(gameObject);
         }
     }

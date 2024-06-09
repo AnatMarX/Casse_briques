@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     //[Header("Public variables")]
     //public bool Rotate;
     private float speed;
-    private bool gameStarted = false;
+    //private bool roundStarted = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,12 +22,27 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space) && gameStarted==false)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            BallController ballcontroller = GameObject.Find("Ball").GetComponent<BallController>();
-            ballcontroller.transform.parent.DetachChildren();
-            LevelController.StartLevel();
-            gameStarted = true;
+            GameObject ball = GameObject.Find("Ball");
+            if (ball != null)
+            {
+                BallController ballController = ball.GetComponent<BallController>();
+                if (ballController != null)
+                {
+                    ballController.transform.parent.DetachChildren();
+                    //roundStarted = true;
+                    LevelController.StartLevel();
+                }
+                else
+                {
+                    Debug.LogError("BallController component not found on Ball object.");
+                }
+            }
+            else
+            {
+                Debug.LogError("Ball object not found.");
+            }
         }
 
         if (Input.GetKey(KeyCode.LeftArrow))
