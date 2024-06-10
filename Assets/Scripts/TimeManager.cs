@@ -56,7 +56,7 @@ public class TimeManager : MonoBehaviour
             yield return new WaitForSeconds(1);
             time--;
             UpdateTimeText();
-            Debug.Log("Time left: " + time);
+            //Debug.Log("Time left: " + time);
         }
         isCountingDown = false;
         LevelController.Death();

@@ -18,9 +18,6 @@ public class LevelController : MonoBehaviour
     private readonly int rows = 10;
     private readonly int columns = 7;
     private readonly int baseDurability = 5;
-    int numZeros;
-    int numOnes;
-    int numTwos;
     private float xSpacing = 1.62f;
     private float ySpacing = 1.09f;
     private Vector3 topLeftBrickPosition = new Vector3(-7.86f, 4.28f, 99.736f);
@@ -158,21 +155,21 @@ void GenerateBricks(string difficulty)
 
         if (difficulty == "Easy")
         {
-            numZeros = 40;
+            numZeros = 30;
             numOnes = 20;
-            numTwos = 10;
+            numTwos = 20;
         }
         else if (difficulty == "Medium")
         {
-            numZeros = 20;
-            numOnes = 40;
+            numZeros = 30;
+            numOnes = 30;
             numTwos = 10;
         }
         else
         {
             numZeros = 20;
-            numOnes = 40;
-            numTwos = 10;
+            numOnes = 45;
+            numTwos = 5;
         }
 
         // Distribuer aléatoirement les valeurs dans la grille
@@ -221,7 +218,7 @@ void GenerateBricks(string difficulty)
 
                 else
                 {
-                    Debug.Log("space instantiated");
+                    //Debug.Log("space instantiated");
                 }
 
             }
