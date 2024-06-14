@@ -80,5 +80,19 @@ public class BallController : MonoBehaviour
         {
             audioManager.PlaySFX(audioManager.touchBrick);
         }
+        // Ajout d'une légère déviation aléatoire pour éviter le blocage de la balle
+        AddRandomDeviation();
+    }
+
+    void AddRandomDeviation()
+    {
+        float deviationStrength = 0.1f; // Ajuste cette valeur pour contrôler l'intensité de la déviation
+        Vector3 randomDeviation = new Vector3(
+            Random.Range(-deviationStrength, deviationStrength),
+            Random.Range(-deviationStrength, deviationStrength),
+            Random.Range(-deviationStrength, deviationStrength)
+        );
+
+        rb.velocity += randomDeviation;
     }
 }
