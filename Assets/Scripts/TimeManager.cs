@@ -7,19 +7,16 @@ public class TimeManager : MonoBehaviour
 {
     private LevelController LevelController;
     public TextMeshProUGUI scoreText;
-    private int time = 300;
+    private static int initialTime = 300;
+    private int time = initialTime;
     private bool isCountingDown = false;
     private bool isPaused = false;
     private Coroutine countdownCoroutine;
+    private int elapsedTime = 0;
 
     void Start()
     {
-        UpdateTimeText();
-    }
-
-    public void BonusTime()
-    {
-        time += 30;
+        LevelController = GetComponent<LevelController>();
         UpdateTimeText();
     }
 
@@ -55,16 +52,21 @@ public class TimeManager : MonoBehaviour
             }
             yield return new WaitForSeconds(1);
             time--;
+            elapsedTime++;
             UpdateTimeText();
             //Debug.Log("Time left: " + time);
         }
         isCountingDown = false;
         LevelController.Death();
     }
-
-    public void Update()
+    public int getElapsedTime()
     {
+        return elapsedTime;
+    }
 
+    public int getInitialTime()
+    {
+        return initialTime;
     }
 
     private void UpdateTimeText()

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class BoxController : MonoBehaviour
 {
-    public GameObject bonus;
+    public GameObject BonusPrefab;
     private Renderer rend;
     private Color[] colors;
     private int currentDurability;
@@ -41,7 +41,7 @@ public class BoxController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ball"))
+        if (collision.gameObject.CompareTag("Ball") | collision.gameObject.CompareTag("BonusBall"))
         {
             this.TakeDamage();
         }
@@ -69,7 +69,7 @@ public class BoxController : MonoBehaviour
 
     private void OnDestroy()
     {
-        Instantiate(bonus, transform.position, transform.rotation);
+        Instantiate(BonusPrefab, transform.position, transform.rotation);
     }
     void SetBoxColor()
     {

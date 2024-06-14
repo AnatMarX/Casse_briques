@@ -1,59 +1,47 @@
 using UnityEngine;
 
-public class BallController : MonoBehaviour
+public class BonusBallController : MonoBehaviour
 {
     // Vitesse de déplacement de la boule
     private float ballSpeed = 0;
-    private float impulseBallSpeed = 5;
-    public LevelController levelController;
-    // Référence au go & au Rigidbody
-    private GameObject go;
+
+    private LevelController levelController;
+    // Référence au Rigidbody
     private Rigidbody rb;
     private Vector3 direction;
-    private bool impulse;
 
     AudioManager audioManager;
 
     private void Awake()
     {
+        levelController = FindObjectOfType<LevelController>();
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-    }
-
-    void Start()
-    {
-        this.impulse = false;
         // Obtenir le Rigidbody attaché à l'objet
         rb = GetComponent<Rigidbody>();
-        go=getGo();
     }
+
     public void SetBallSpeed(float speed)
     {
         ballSpeed = speed;
     }
 
-    public void SetImpulse()
+    public void Impulse(Vector3 direction)
     {
-        this.impulse = false; // quand impulse = false, l'impulsion peut être déclenchée
-    }
-    // Ref gameobject
-    private GameObject getGo()
-    {
-        return this.gameObject;
+        Debug.Log("Bonus impulsion");
+        ballSpeed = 8;
+
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody n'est pas assigné !");
+            return;
+        }
+
+        rb.velocity = direction * ballSpeed;
     }
 
-    void FixedUpdate()
+
+void FixedUpdate()
     {
-        //Debug.Log(rb.velocity); 
-        
-        
-        if (go.transform.parent == null && this.impulse == false)
-        {
-            Debug.Log("impulsion");
-            ballSpeed = impulseBallSpeed;
-            impulse = true;
-            rb.velocity = new Vector3(0, ballSpeed, 0);
-        }
-        
         //Debug.Log(ballSpeed);
         //aDebug.Log(rb.velocity.normalized);
         direction = rb.velocity;
@@ -74,7 +62,7 @@ public class BallController : MonoBehaviour
         if (collision.gameObject.tag == "Death")
         {
             audioManager.PlaySFX(audioManager.touchDeath);
-            levelController.KillPlayer();
+            DestroyBall();
         }
         if (collision.gameObject.tag == "Brick")
         {

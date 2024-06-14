@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip touchDeath;
     public AudioClip touchBrick;
     public AudioClip destroyBrick;
+    public AudioClip victory;
 
     private void Start()
     {

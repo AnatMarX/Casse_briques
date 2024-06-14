@@ -32,7 +32,7 @@ public class LevelController : MonoBehaviour
     private Color Brick5;
     private Color[] colors;
     private bool alive = true;
-    
+    private bool victory = false;
     private int BrickHP; // Brick health points
 
     private void Awake()
@@ -51,6 +51,19 @@ public class LevelController : MonoBehaviour
         GenerateBricks(difficulty);
     }
 
+    public void Update()
+    {
+        // Find all objects with the tag "Brick"
+        GameObject[] bricks = GameObject.FindGameObjectsWithTag("Brick");
+
+        // Get the number of bricks
+        int brickCount = bricks.Length;
+        if (brickCount == 0 && victory == false) {
+            Victory();
+            victory = true;
+        }
+    }
+
     public void KillPlayer()
         // Player loses a life
     {
@@ -67,10 +80,16 @@ public class LevelController : MonoBehaviour
     }
 
     public void Death()
-        // True end of the level
+        // Defeat
     {
         audioManager.PlaySFX(audioManager.death);
         gameOverManager.GameOver();
+    }
+
+    public void Victory()
+    {
+        audioManager.PlaySFX(audioManager.victory);
+        gameOverManager.Victory();
     }
 
     public void ResetPlayer()
@@ -85,6 +104,12 @@ public class LevelController : MonoBehaviour
 
         // Rendre Ball enfant de PlayerAndBall
         Ball.transform.SetParent(Player.transform);
+
+        // Détruire tous les objets bonus instanciés
+        foreach (var gameObj in GameObject.FindGameObjectsWithTag("BonusBall"))
+        {
+            Destroy(gameObj);
+        }
 
         Debug.Log("Les objets ont été positionnés et Ball est maintenant enfant de PlayerAndBall.");
     }
@@ -156,8 +181,8 @@ void GenerateBricks(string difficulty)
         if (difficulty == "Easy")
         {
             numZeros = 30;
-            numOnes = 20;
-            numTwos = 20;
+            numOnes = 10;
+            numTwos = 30;
         }
         else if (difficulty == "Medium")
         {
@@ -190,7 +215,7 @@ void GenerateBricks(string difficulty)
                     GameObject brick = Instantiate(brickPrefab, position, Quaternion.identity);
 
                     // Randomize durability if needed, or use baseDurability
-                    int durability = baseDurability; // Or you can randomize this value
+                    int durability = baseDurability - Random.Range(0,5); // Randomized durability between 1 and 5
 
                     // Init colors
                     Brick1 = Color.blue;    // First color (easiest brick to break)
@@ -213,7 +238,7 @@ void GenerateBricks(string difficulty)
                 }
                 else if (grid[i,j] == 2)
                 {
-                    GameObject box = Instantiate(boxPrefab, position, Quaternion.identity);
+                    GameObject box = Instantiate(boxPrefab, position, Quaternion.identity); // Instanciation d'un bonus
                 }
 
                 else
