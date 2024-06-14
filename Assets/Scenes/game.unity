@@ -862,6 +862,7 @@ MonoBehaviour:
   touchDeath: {fileID: 8300000, guid: c07a2036ea883fe4bb674f1db60140e6, type: 3}
   touchBrick: {fileID: 8300000, guid: dba65229e632f1f45a2487eb3c99ed6f, type: 3}
   destroyBrick: {fileID: 8300000, guid: eea752b3264357b43b884b0861d771ab, type: 3}
+  victory: {fileID: 8300000, guid: b9964fd4d6012d44498ec586cd3d02af, type: 3}
 --- !u!4 &359514102
 Transform:
   m_ObjectHideFlags: 0
@@ -1415,7 +1416,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: tt
+  m_text: Entre ton nom!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -3009,6 +3010,7 @@ MonoBehaviour:
   gameOverScreen: {fileID: 2144870674}
   playerNameInput: {fileID: 456568868}
   scoreText: {fileID: 101766567}
+  announcementText: {fileID: 91601184}
   ballController: {fileID: 1272017094}
 --- !u!1 &1689911196
 GameObject:
